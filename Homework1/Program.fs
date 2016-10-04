@@ -30,11 +30,11 @@ let find_line(point1: Vector<float>, point2: Vector<float>) =
 //    # [x2 y2]   [w2]   [-w0]
 //look at http://numerics.mathdotnet.com/LinearEquations.html
 
-    a = [point_1, point_2]
-    w0 = 1.
-    b = [-w0, -w0]
-    w1, w2 = np.linalg.solve(a, b)
-    return np.array([w0, w1, w2])
+    let a = Matrix<float>.Build.DenseOfColumnArrays( [| point1.ToArray(); point2.ToArray() |])
+    let w0 = 1.0
+    let b = vector [-w0; -w0]
+    let result = a.Solve(b).ToArray();
+    vector [w0; result.[0]; result.[1]]
 
 
 let rec learn (misclasified: (Vector<float>*float) list) (w: Vector<float>) correctLabels =
