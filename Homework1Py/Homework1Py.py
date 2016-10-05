@@ -54,7 +54,7 @@ def perceptron_learning(points, correct_labels):
             break
 
         miss_point_indexes = miss_condition.nonzero()[0]
-        miss_point_index = miss_point_indexes[0] #np.random.choice(miss_point_indexes, 1)[0]
+        miss_point_index = np.random.choice(miss_point_indexes, 1)[0]
         miss_point = points[miss_point_index]
         miss_point_correct_label = correct_labels[miss_point_index]
         x = np.hstack((1, miss_point))

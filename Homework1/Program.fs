@@ -9,20 +9,8 @@ open MathNet.Numerics.Statistics
 let mutable N = 100
 let mutable counter = 0.0
 let mutable dataPoints = [for i in 1..N -> Vector.Build.Random(2, new ContinuousUniform(-1.0,1.0) )]
-let mutable linePoints =  [|for i in 1..2 -> Vector.Build.Random(2, new ContinuousUniform(-1.0,1.0) )|]
-
-//let linePoints = [ Vector.Build.Dense([|-0.40877; -0.653459|]);
-//                       Vector.Build.Dense([|-0.579892;  -0.84767|])];
-//
-//
-//let dataPoints = [
-//                       Vector.Build.Dense([|0.308796; -0.758407|]);
-//                       Vector.Build.Dense([|-0.173793; 0.120863|]);
-//                       Vector.Build.Dense([|0.841236; -0.780489|]);
-//                       Vector.Build.Dense([|-0.291265; 0.129208|]);
-//                       Vector.Build.Dense([|-0.812164; -0.697282|]); ]
-
-
+let mutable linePoints =  [ for i in 1..2 -> Vector.Build.Random(2, new ContinuousUniform(-1.0,1.0) )]
+let rand = new Random()
 
 let getrandomitem() =
   let rnd = System.Random()
@@ -44,7 +32,6 @@ let find_line(point1: Vector<float>, point2: Vector<float>) =
 //    """
 //    # [x1 y1] . [w1] = [-w0] ==> a . x = b
 //    # [x2 y2]   [w2]   [-w0]
-//look at http://numerics.mathdotnet.com/LinearEquations.html
 
     let a = Matrix<float>.Build.DenseOfRowArrays( [| point1.ToArray(); point2.ToArray() |])
     let w0 = 1.0
@@ -63,6 +50,7 @@ let rec learn (misclasified: (Vector<float>*float) list) (w: Vector<float>) corr
                 let msklNew = List.zip correctLabels classifiedNew
                                |> List.filter (fun(y,(x,s)) -> y <> s)
                                |> List.map (fun (y, (x, s)) -> (x,y))
+                               |> List.sortWith(fun elem elem2 -> if rand.Next() > rand.Next() then 1 else -1 )
                 learn msklNew newW correctLabels
 
 let perceptron_learning correctLabels =
@@ -71,6 +59,7 @@ let perceptron_learning correctLabels =
     let mskl = List.zip correctLabels classified
                               |> List.filter (fun(y,(x,s)) -> y <> s)
                               |> List.map (fun (y, (x, s)) -> (x,y))
+                              |> List.sortWith(fun elem elem2 -> if rand.Next() > rand.Next() then 1 else -1 )
 
     let w = learn mskl wInit correctLabels
     (w, counter)
@@ -93,8 +82,8 @@ let run_experiment() =
 //    """
 //    Runs an experiment with `N` random points.
 //    """
-    counter <- 0.0
-    linePoints <- [|for i in 1..2 -> Vector.Build.Random(2, new ContinuousUniform(-1.0,1.0) )|]
+    counter <- 1.0
+    linePoints <- [for i in 1..2 -> Vector.Build.Random(2, new ContinuousUniform(-1.0,1.0) )]
     dataPoints <- [for i in 1..N -> Vector.Build.Random(2, new ContinuousUniform(-1.0,1.0) )]
     let f = find_line(linePoints.[0], linePoints.[1])
     let correct_labels = dataPoints |> List.map (fun v -> label_point(f, v))
@@ -106,7 +95,7 @@ let run_experiment() =
 let main argv =
     for n in [10; 100] do // # N is the number of sample points
         N <- n
-        let results = [for i in [1..500] -> run_experiment()]
+        let results = [for i in [1..1000] -> run_experiment()]
         let num_iterations = Statistics.Mean (results |> List.map (fun (num, p) -> num))
         let prob = Statistics.Mean (results |> List.map (fun (num, p) -> p))
         printfn "Count %i iter %f prob %f" n num_iterations prob
