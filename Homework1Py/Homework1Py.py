@@ -1,4 +1,4 @@
-﻿#!/usr/bin/python
+#!/usr/bin/python
 
 import numpy as np
 import pytest
@@ -54,7 +54,7 @@ def perceptron_learning(points, correct_labels):
             break
 
         miss_point_indexes = miss_condition.nonzero()[0]
-        miss_point_index = np.random.choice(miss_point_indexes, 1)[0]
+        miss_point_index = miss_point_indexes[0] #np.random.choice(miss_point_indexes, 1)[0]
         miss_point = points[miss_point_index]
         miss_point_correct_label = correct_labels[miss_point_index]
         x = np.hstack((1, miss_point))
@@ -95,11 +95,12 @@ def find_line(point_1, point_2):
 def random_line():
     point_1, point_2 = random_points(2)
     return find_line(point_1, point_2)
-
+    #return find_line(np.array([-0.40877, -0.653459]), np.array([-0.579892,  -0.84767]))
 
 def random_points(N):
     return np.random.uniform(-1., 1., size=(N, 2))
-
+    #return np.array([[0.308796, -0.758407],[-0.173793, 0.120863],[0.841236, -0.780489],
+     #       [-0.291265, 0.129208],[-0.812164, -0.697282]])
 
 # ========================================================================== #
 
@@ -138,5 +139,5 @@ def test_find_line():
 
 
 if __name__ == '__main__':
-    pytest.main(['-s', __file__])
+    #pytest.main(['-s', __file__])
     main()

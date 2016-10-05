@@ -56,7 +56,6 @@
   <ItemGroup>
     <Compile Include="Program.fs" />
     <Content Include="packages.config" />
-    <None Include="Script.py" />
     <None Include="Script.fsx" />
   </ItemGroup>
   <ItemGroup>
