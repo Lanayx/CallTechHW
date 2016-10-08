@@ -12,10 +12,6 @@ let mutable dataPoints = [for i in 1..N -> Vector.Build.Random(2, new Continuous
 let mutable linePoints =  [ for i in 1..2 -> Vector.Build.Random(2, new ContinuousUniform(-1.0,1.0) )]
 let rand = new Random()
 
-let getrandomitem() =
-  let rnd = System.Random()
-  fun (combos : string list) -> List.nth combos (rnd.Next(combos.Length))
-
 let label_point(line: Vector<float>, point: Vector<float>) =
     let point3 = Vector.Build.Dense([|1.0;point.[0];point.[1]|])
     let mult = point3*line

@@ -55,10 +55,12 @@
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
-    <Compile Include="Program.fs" />
+    <Compile Include="H2-Regression.fs" />
+    <None Include="H2-Regression.fsx" />
+    <None Include="H2-Hoeffding.ipynb" />
     <None Include="App.config" />
     <Content Include="packages.config" />
-    <None Include="H2-Hoeffding.ipynb" />
+    <Compile Include="Program.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.Core">
@@ -78,7 +80,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
   </ItemGroup>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
