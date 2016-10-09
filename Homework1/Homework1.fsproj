@@ -54,9 +54,9 @@
   </Choose>
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
-    <Compile Include="Program.fs" />
     <Content Include="packages.config" />
-    <None Include="Script.fsx" />
+    <None Include="H1-Perceptron.fsx" />
+    <Compile Include="H1-Perceptron.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.Charting">

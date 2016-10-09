@@ -55,9 +55,10 @@
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
-    <Compile Include="H2-Regression.fs" />
     <None Include="H2-Regression.fsx" />
     <None Include="H2-Hoeffding.ipynb" />
+    <Compile Include="H2-Regression.fs" />
+    <Compile Include="H2-Nonlinear.fs" />
     <None Include="App.config" />
     <Content Include="packages.config" />
     <Compile Include="Program.fs" />
