@@ -28,7 +28,7 @@ let bias = List.average ([for x in -1.0..0.01..1.0 -> (result*x - sin(System.Mat
 
 
 let variance = [|-1.0..0.01..1.0|] |>
-                 Array.map (fun (x) -> List.average [for r in regressions -> (r*x - sin(System.Math.PI*x))**2.0]) |>
+                 Array.map (fun (x) -> List.average [for r in regressions -> (r*x - result*x)**2.0]) |>
                  Array.average
 
 //let (x1,x2) = points.[0]
