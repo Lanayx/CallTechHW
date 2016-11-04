@@ -12,6 +12,16 @@ let regression (dataPoints: (float*float) list) correct_labels  =
     let w = (xT*x).Inverse()*xT*y
     w
 
+let weightedRegression (dataPoints: (float*float) list) correct_labels (lambda:float)  =
+    let normalizedPoints = dataPoints |>
+                           List.map (fun (x1,x2) -> [|1.0; x1; x2; x1*x1; x2*x2; x1*x2; abs(x1-x2); abs(x1+x2) |])
+    let x = Matrix.Build.DenseOfRowArrays(normalizedPoints)
+    let y = Vector.Build.DenseOfEnumerable(correct_labels)
+    let xT = x.Transpose()
+    let I = Matrix.Build.DenseIdentity(8) :> Matrix<float>
+    let w = (xT*x+lambda*I).Inverse()*xT*y
+    w
+
 let readData (fileName: string) =
     let values = seq {
             use sr = new StreamReader(fileName)
@@ -58,7 +68,19 @@ let main argv =
     let verifyX = verificationData |> List.map (fun (x,y) -> x)
     let verifyY = verificationData |> List.map (fun (x,y) -> y)
     let w = regression testX testY
+    let w1 = weightedRegression testX testY 0.1
     let inP = calculateP testX testY w
     let outP = calculateP verifyX verifyY w
+    let inP1 = calculateP testX testY w1
+    let outP1 = calculateP verifyX verifyY w1
+
+
+    let wfun = weightedRegression testX testY
+    let min = [-10.0..10.0]
+                |> List.map (fun lambda -> (lambda, wfun (10.0**lambda)))
+                |> List.map (fun (lambda,w) -> (lambda, calculateP verifyX verifyY w))
+
     printfn "%A %A" inP outP
+    printfn "%A %A" inP1 outP1
+    printfn "min %A" min
     0 // return an integer exit code
