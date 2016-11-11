@@ -15,8 +15,11 @@ let sets = guesses |> List.map (fun guess -> [
                                                 [ (-1.0, 0.0); (guess, 1.0); ]
                                                 [ (guess, 1.0); (1.0, 0.0) ]
                                              ])
-let pointsSet =  guesses |> List.map (fun guess ->  [ (-1.0, 0.0); (guess, 1.0); (1.0, 0.0) ] )
-
+let pointsSet =  guesses |> List.map (fun guess -> [
+                                                    [ (guess, 1.0) ]
+                                                    [ (1.0, 0.0) ]
+                                                    [ (-1.0, 0.0) ]
+                                                   ])
 
 
 let regression (dataPoints: (float*float) list) k  =
@@ -28,11 +31,11 @@ let regression (dataPoints: (float*float) list) k  =
     let w = (xT*x).Inverse()*xT*y
     w
 
-let calcELin (w0, w1) (points: (float*float) list) =
-   points |> List.map (fun (x, y) -> (y - w0 - x*w1)**2.0) |> List.sum
+let calcELin (w0, w1) ((x, y): (float*float)) =
+   (y - w0 - x*w1)**2.0
 
-let calcEConst (w0) (points: (float*float) list) =
-   points |> List.map (fun (x, y) -> (y - w0)**2.0) |> List.sum
+let calcEConst (w0) ((x, y): (float*float)) =
+   (y - w0)**2.0
 
 
 
@@ -41,8 +44,8 @@ let wsLin = sets |> List.map (fun set -> set |>  List.map (fun subset -> regress
 
 let result =
     List.zip wsConst pointsSet |>
-        List.map (fun (ws, points) -> ws |> List.map (fun w -> calcEConst w.[0] points) |> List.average )
+        List.map (fun (ws, points) -> List.zip ws points |> List.map (fun (w, p) -> calcEConst w.[0] p.Head) |> List.average )
 
 let result1 =
     List.zip wsLin pointsSet |>
-        List.map (fun (ws, points) -> ws |> List.map (fun w -> calcELin (w.[0], w.[1]) points) |> List.average )
+        List.map (fun (ws, points) -> List.zip ws points |> List.map (fun (w, p) -> calcELin (w.[0], w.[1]) p.Head) |> List.average )
