@@ -61,6 +61,7 @@
     <Content Include="packages.config" />
     <None Include="out.dta" />
     <None Include="6.fsx" />
+    <None Include="CrossValidation.fsx" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.Charting">
