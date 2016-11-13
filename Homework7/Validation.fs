@@ -1,4 +1,6 @@
-﻿open System.IO
+﻿module Validation
+
+open System.IO
 open System
 open MathNet.Numerics.LinearAlgebra
 open MathNet.Numerics.Statistics
@@ -37,7 +39,7 @@ let calculateP (dataPoints: (float*float) list) correct_labels g k =
     let difference = List.zip correct_labels label_g |> List.map (fun(fs,(g,gs)) -> if fs <> gs then 1.0 else 0.0)
     Statistics.Mean difference
 
-[<EntryPoint>]
+//[<EntryPoint>]
 let main argv =
     let testData = readData "../../in.dta"
     let verificationData = readData "../../out.dta"
