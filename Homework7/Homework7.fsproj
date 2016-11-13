@@ -64,6 +64,7 @@
     <None Include="out.dta" />
     <None Include="6.fsx" />
     <Compile Include="SVM.fs" />
+    <None Include="CrossValidation.fsx" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Accord">
