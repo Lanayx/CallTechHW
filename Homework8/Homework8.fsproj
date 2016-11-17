@@ -60,6 +60,8 @@
     <Compile Include="Program.fs" />
     <None Include="App.config" />
     <Content Include="packages.config" />
+    <None Include="features.test" />
+    <None Include="features.train" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Accord">
@@ -81,6 +83,7 @@
     <Reference Include="mscorlib" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <Import Project="..\packages\Accord.3.3.1-alpha\build\Accord.targets" Condition="Exists('..\packages\Accord.3.3.1-alpha\build\Accord.targets')" />
