@@ -24,9 +24,9 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <DocumentationFile>bin\Debug\Homework8.XML</DocumentationFile>
-    <Prefer32Bit>true</Prefer32Bit>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -62,10 +62,20 @@
     <Content Include="packages.config" />
     <None Include="features.test" />
     <None Include="features.train" />
+    <None Include="LIBSVM_COPYRIGHT" />
+    <None Include="libsvm.dll" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Accord">
       <HintPath>..\packages\Accord.3.3.1-alpha\lib\net46\Accord.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Accord.IO">
+      <HintPath>..\packages\Accord.IO.3.3.1-alpha\lib\net46\Accord.IO.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Accord.MachineLearning">
+      <HintPath>..\packages\Accord.MachineLearning.3.3.1-alpha\lib\net46\Accord.MachineLearning.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Accord.Math">
@@ -76,10 +86,19 @@
       <HintPath>..\packages\Accord.Math.3.3.1-alpha\lib\net46\Accord.Math.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Accord.Statistics">
+      <HintPath>..\packages\Accord.Statistics.3.3.1-alpha\lib\net46\Accord.Statistics.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="FSharp.Core">
       <HintPath>..\packages\FSharp.Core.4.0.1.7-alpha\lib\net40\FSharp.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="LibSVMsharp">
+      <HintPath>..\packages\LibSVMsharp.1.2.4\lib\net45\LibSVMsharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="mscorlib" />
     <Reference Include="System" />
     <Reference Include="System.Core" />

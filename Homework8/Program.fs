@@ -2,37 +2,12 @@
 open Accord.Math.Optimization
 open System.IO
 open System
+open Accord.IO
+open Accord.MachineLearning.VectorMachines
+open Accord.MachineLearning.VectorMachines.Learning
+open LibSVMsharp.Helpers
+open LibSVMsharp
 
-let getAlphas (points : (float[]*float) []) =
-    let Q = Array2D.create points.Length points.Length 0.0
-    for i in 0..points.Length-1 do
-        for j in 0..points.Length-1 do
-            let (x, y) = points.[i]
-            let (x1,y1) = points.[j]
-            Q.[i,j] <- y*y1*(Matrix.Dot(x, x1.Transpose()).[0])
-    let positiveDefinFix = Matrix.Diagonal(points.Length, 1e-13)// To satisfy library positive definition constraint
-    let QFix = Q.Add(positiveDefinFix)
-    let d = [|for i in 1..points.Length -> -1.0|]
-    let firstRow = [| points |> Array.map (fun (x, y) -> y) |]
-    let identity = Matrix.Identity(points.Length)
-    let identityJugged = [| for i in 0..points.Length-1 -> identity.GetRow(i)|]
-    let A = Matrix.Create(Array.append firstRow identityJugged)
-    let b = Vector.Zeros(points.Length+1)
-    let solver = new GoldfarbIdnani(QFix,d,A,b,1)
-    let success = solver.Minimize()
-    solver.Solution
-
-let svm_learning (points : (float[]*float) []) =
-    let alphas = (getAlphas points) |> Array.map (fun e -> if e < 1.0 then 0.0 else e)
-    let svms = Array.countBy (fun elem ->
-                                if (elem > 1.0) then 0 else 1) alphas
-
-    let w = Array.fold2 (fun (acc: float[]) (x: float[], y: float) (alpha:float) -> acc.Add(x.Multiply(alpha*y))) [| 0.0; 0.0 |] points alphas
-    let supportVectorIndex = alphas.ArgMax()
-
-    let (x1,y1) = points.[supportVectorIndex]
-    let b = 1.0/y1-(Matrix.Dot(w, x1.Transpose()).[0])
-    [| b; w.[0]; w.[1]|].Divide(b)
 
 let loadData (fileName :string) =
     let values = seq {
@@ -41,13 +16,46 @@ let loadData (fileName :string) =
                 yield sr.ReadLine()
         }
     values
-         |> Seq.map (fun line -> line.Split([|' '|], StringSplitOptions.RemoveEmptyEntries))
-         |> Seq.map (fun arr -> (((float)arr.[1],(float)arr.[2]), (float)arr.[0]))
-         |> Seq.toList
+                 |> Seq.map (fun line -> line.Split([|' '|], StringSplitOptions.RemoveEmptyEntries))
+                 |> Seq.map (fun arr -> (((float)arr.[1],(float)arr.[2]), (float)arr.[0]))
+                 |> Seq.toArray
+
+let one_vs_one data (number1: float) (number2: float) =
+    data |> Array.filter (fun (x,y) -> y = number1 || y = number2)
+         |> Array.map (fun (x,y) -> if y = number1 then (x, 1.0) else (x,-1.0))
+
+let one_vs_all data (number: float) =
+    data |> Array.map (fun (x,y) -> if y = number then (x, 1.0) else (x,-1.0))
+
+let solveSVM data testData C =
+    let problem = new SVMProblem()
+    problem.X.AddRange(data |> Array.map (fun ((x1,x2),y) -> [| SVMNode(1,x1); SVMNode(2,x2) |]))
+    problem.Y.AddRange(data |> Array.map (fun ((x1,x2),y) -> y))
+
+
+    let parameter = new SVMParameter();
+    parameter.Type <- SVMType.C_SVC;
+    parameter.Kernel <- SVMKernelType.POLY;
+    parameter.Degree <- 5
+    parameter.C <- C;
+
+    let model = SVM.Train(problem, parameter);
+    let testResults = testData |> Array.map (fun ((x1,x2),y) -> SVM.Predict(model, [| SVMNode(1,x1); SVMNode(2,x2) |]))
+    let testLabels = testData |> Array.map (fun ((x1,x2),y) -> y)
+    let ein = Array.sum (Array.zip testResults testLabels |> Array.map (fun (res,lab) -> if res = lab then 0.0 else 1.0)) / (float)testLabels.Length
+    (ein, model.TotalSVCount)
 
 [<EntryPoint>]
 let main argv =
-    let trainData = loadData "../../features.train"
+
+    let data = loadData "../../features.train"
+    let testData = loadData "../../features.test"
+
+    //let eins =  [for i in [0.0..1.0..2.0] -> solveSVM (one_vs_all data i) (one_vs_all testData i) 0.01]
+    let eins =  [for i in [0.0001;0.001;0.01;1.0] -> solveSVM (one_vs_one data 1.0 5.0) (one_vs_one data 1.0 5.0) i]
+
+    //let accuracy = SVMHelper.EvaluateClassificationProblem(problem, testResults);
+
     0
 
 
