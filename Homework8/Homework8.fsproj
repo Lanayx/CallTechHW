@@ -24,7 +24,7 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <DocumentationFile>bin\Debug\Homework8.XML</DocumentationFile>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
@@ -95,7 +95,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="LibSVMsharp">
-      <HintPath>..\packages\LibSVMsharp.1.2.4\lib\net45\LibSVMsharp.dll</HintPath>
+      <HintPath>..\packages\LibSVMsharp-64Bit.1.0.2\lib\net45\LibSVMsharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
