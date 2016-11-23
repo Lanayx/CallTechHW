@@ -63,7 +63,6 @@
     <None Include="features.test" />
     <None Include="features.train" />
     <None Include="LIBSVM_COPYRIGHT" />
-    <None Include="libsvm.dll" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Accord">
