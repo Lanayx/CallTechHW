@@ -6,19 +6,19 @@ open System.IO
 open System
 
 let noTransform (x1,x2) =
-    [|1.0; x1; x2; |]
+    [1.0; x1; x2;]
 
 let transform (x1,x2) =
-    [|1.0; x1; x2; x1*x1; x2*x2; x1*x2; abs(x1-x2); abs(x1+x2) |]
+    [1.0; x1; x2; x1*x2; x1*x1; x2*x2]
 
 let weightedRegression (data: ((float*float)*float) list) (lambda:float) transform  =
     let dataPoints = data |> List.map (fun (x,y) -> x)
     let correct_labels = data |> List.map (fun (x,y) -> y)
     let normalizedPoints = dataPoints |> List.map transform
-    let x = Matrix.Build.DenseOfRowArrays(normalizedPoints)
-    let y = Vector.Build.DenseOfEnumerable(correct_labels)
+    let x = matrix normalizedPoints
+    let y = vector correct_labels
     let xT = x.Transpose()
-    let I = Matrix.Build.DenseIdentity(8) :> Matrix<float>
+    let I = Matrix.Build.DenseIdentity(normalizedPoints.Head.Length) :> Matrix<float>
     let w = (xT*x+lambda*I).Inverse()*xT*y
     w
 
@@ -40,21 +40,23 @@ let one_vs_one data (number1: float) (number2: float) =
 let one_vs_all data (number: float) =
     data |> List.map (fun (x,y) -> if y = number then (x, 1.0) else (x,-1.0))
 
-let calculateEin  (data: ((float*float)*float) list) (w: Vector<float>) =
+let calculateE  (data: ((float*float)*float) list) (w: Vector<float>) transform=
     let correct_labels = data |> List.map (fun (x,y) -> y)
     let errors =
         data
-        |> List.map (fun ((x1,x2), y) -> (vector [1.0; x1; x2], y))
-        |> List.map (fun (x, y) -> if (sign x*w = y) then 0.0 else 1.0) //fix dot operation
+        |> List.map (fun (x, y) -> (vector (transform x), y))
+        |> List.map (fun (x, y) -> if (sign (x*w) = (int)y) then 0.0 else 1.0) //fix dot operation
     Statistics.Mean errors
 
 let RRRun() =
     let testData = readData "../../features.train"
     let verificationData = readData "../../features.test"
-    let currentTransform = noTransform
+    let currentTransform = transform
 
-    let testSets = [ for i in 5.0..9.0 -> one_vs_all testData i]
+    let testSets = [ for i in 0.0..4.0 -> one_vs_all testData i]
+    let verificationSets = [ for i in 0.0..4.0 -> one_vs_all verificationData i]
     let wS = testSets |> List.map (fun testSet -> weightedRegression testSet 1.0 currentTransform)
-    let eins = List.zip testSets wS |> List.map (fun (testSet, w) -> calculateEin testSet w)
+    let eins = List.zip testSets wS |> List.map (fun (set, w) -> calculateE set w currentTransform)
+    let eouts = List.zip verificationSets wS |> List.map (fun (set, w) -> calculateE set w currentTransform)
 
     printfn "%A" "test"
