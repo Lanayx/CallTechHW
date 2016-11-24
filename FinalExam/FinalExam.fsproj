@@ -5,14 +5,14 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>05d75c63-d99a-4a42-9a5d-fe83026aa867</ProjectGuid>
+    <ProjectGuid>4a8ca1b1-9025-4ad4-b30b-c881f6d6484d</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Homework2</RootNamespace>
-    <AssemblyName>Homework2</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <RootNamespace>FinalExam</RootNamespace>
+    <AssemblyName>FinalExam</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFSharpCoreVersion>4.4.0.0</TargetFSharpCoreVersion>
-    <Name>Homework2</Name>
+    <Name>FinalExam</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -23,7 +23,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <DocumentationFile>bin\Debug\Homework2.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\FinalExam.XML</DocumentationFile>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -34,7 +34,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <DocumentationFile>bin\Release\Homework2.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\FinalExam.XML</DocumentationFile>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
@@ -55,13 +55,12 @@
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
-    <None Include="H2-Regression.fsx" />
-    <None Include="H2-Hoeffding.ipynb" />
-    <Compile Include="H2-Regression.fs" />
-    <Compile Include="H2-Nonlinear.fs" />
-    <None Include="App.config" />
-    <Content Include="packages.config" />
+    <Compile Include="RegularizedRegression.fs" />
     <Compile Include="Program.fs" />
+    <None Include="App.config" />
+    <None Include="features.test" />
+    <None Include="features.train" />
+    <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.Core">
@@ -81,7 +80,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
   </ItemGroup>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>

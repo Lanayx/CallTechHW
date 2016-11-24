@@ -68,11 +68,11 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="MathNet.Numerics">
-      <HintPath>..\packages\MathNet.Numerics.3.14.0-beta01\lib\net40\MathNet.Numerics.dll</HintPath>
+      <HintPath>..\packages\MathNet.Numerics.3.14.0-beta03\lib\net40\MathNet.Numerics.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="MathNet.Numerics.FSharp">
-      <HintPath>..\packages\MathNet.Numerics.FSharp.3.14.0-beta01\lib\net40\MathNet.Numerics.FSharp.dll</HintPath>
+      <HintPath>..\packages\MathNet.Numerics.FSharp.3.14.0-beta03\lib\net40\MathNet.Numerics.FSharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="mscorlib" />
