@@ -51,12 +51,21 @@ let calculateE  (data: ((float*float)*float) list) (w: Vector<float>) transform=
 let RRRun() =
     let testData = readData "../../features.train"
     let verificationData = readData "../../features.test"
+
     let currentTransform = transform
-
-    let testSets = [ for i in 0.0..4.0 -> one_vs_all testData i]
-    let verificationSets = [ for i in 0.0..4.0 -> one_vs_all verificationData i]
-    let wS = testSets |> List.map (fun testSet -> weightedRegression testSet 1.0 currentTransform)
-    let eins = List.zip testSets wS |> List.map (fun (set, w) -> calculateE set w currentTransform)
-    let eouts = List.zip verificationSets wS |> List.map (fun (set, w) -> calculateE set w currentTransform)
-
-    printfn "%A" "test"
+    let testSet = one_vs_one testData 1.0 5.0
+    let verificationSet = one_vs_one verificationData 1.0 5.0
+    let wS = [0.01;1.0] |> List.map (fun labda -> weightedRegression testSet labda currentTransform)
+    let eins = wS |> List.map (fun w -> calculateE testSet w currentTransform)
+    let eouts = wS |> List.map (fun w -> calculateE verificationSet w currentTransform)
+    printfn "eins: %A eouts:%A " eins eouts
+//    let result =[noTransform; transform]
+//                |> List.map (fun currentTransform ->
+//                    let testSets = [ for i in 0.0..9.0 -> one_vs_all testData i]
+//                    let verificationSets = [ for i in 0.0..9.0 -> one_vs_all verificationData i]
+//                    let wS = testSets |> List.map (fun testSet -> weightedRegression testSet 1.0 currentTransform)
+//                    let eins = List.zip testSets wS |> List.map (fun (set, w) -> calculateE set w currentTransform)
+//                    let eouts = List.zip verificationSets wS |> List.map (fun (set, w) -> calculateE set w currentTransform)
+//                    (eins, eouts))
+//                |> List.map (fun (eins, eouts) -> List.zip eins eouts |> List.map (fun (ein, eout) -> Math.Round(eout - ein,4)))
+//    printfn "%A" result

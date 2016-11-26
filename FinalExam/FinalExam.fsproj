@@ -61,8 +61,13 @@
     <None Include="features.test" />
     <None Include="features.train" />
     <Content Include="packages.config" />
+    <None Include="SvmGraph.fsx" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="FSharp.Charting">
+      <HintPath>..\packages\FSharp.Charting.0.90.14\lib\net40\FSharp.Charting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="FSharp.Core">
       <HintPath>..\packages\FSharp.Core.4.0.1.7-alpha\lib\net40\FSharp.Core.dll</HintPath>
       <Private>True</Private>

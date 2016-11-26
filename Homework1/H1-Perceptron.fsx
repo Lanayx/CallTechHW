@@ -1,5 +1,5 @@
 ﻿#load @"..\packages\FSharp.Charting.0.90.14\FSharp.Charting.fsx"
-#load @"..\packages\MathNet.Numerics.FSharp.3.13.1\MathNet.Numerics.fsx"
+#load @"..\packages\MathNet.Numerics.FSharp.3.14.0-beta03\MathNet.Numerics.fsx"
 
 open System
 open FSharp.Charting
