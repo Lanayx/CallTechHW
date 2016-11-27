@@ -57,6 +57,7 @@
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="RegularizedRegression.fs" />
     <Compile Include="SVM.fs" />
+    <Compile Include="RBF.fs" />
     <Compile Include="Program.fs" />
     <None Include="App.config" />
     <None Include="features.test" />
@@ -64,7 +65,6 @@
     <Content Include="packages.config" />
     <None Include="SvmGraph.fsx" />
     <None Include="LIBSVM_COPYRIGHT" />
-    <None Include="libsvm.dll" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.Charting">
