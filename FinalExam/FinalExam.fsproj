@@ -65,6 +65,7 @@
     <Content Include="packages.config" />
     <None Include="SvmGraph.fsx" />
     <None Include="LIBSVM_COPYRIGHT" />
+    <None Include="out.dta" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.Charting">
